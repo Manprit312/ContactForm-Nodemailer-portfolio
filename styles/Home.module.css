@@ -3,10 +3,55 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  padding: 6rem;
-  min-height: 100vh;
-}
 
+  min-height: 100vh;
+  /* background-image: linear-gradient(45deg, #361346, #9bb31800); */
+}
+.main {
+  background-image: linear-gradient(45deg, #e7dbec, rgb(96, 13, 129));
+}
+.buttoncontact button{ width: 100%;
+  background-color:rgb(187 158 199);
+color:white;}
+.buttoncontact{width: 100%;}
+.icons {
+ padding-right: 10px;
+}
+.buttoncontact button {
+  border: none;
+  transition: all 0.3s ease;
+  overflow: hidden;
+  margin-top: 10%;
+  height: 40px;
+}
+.buttoncontact button:after {
+  position: absolute;
+  content: " ";
+  z-index: -1;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+   background-color: #1fd1f9;
+background-image: linear-gradient(315deg, #1fd1f9 0%, #b621fe 74%);
+  transition: all 0.3s ease;
+}
+.buttoncontact button:hover {
+  background: transparent;
+  box-shadow:  4px 4px 6px 0 rgba(255,255,255,.5),
+              -4px -4px 6px 0 rgba(116, 125, 136, .2), 
+    inset -4px -4px 6px 0 rgba(255,255,255,.5),
+    inset 4px 4px 6px 0 rgba(116, 125, 136, .3);
+  color: #fff;
+}
+.buttoncontact button:hover:after {
+  -webkit-transform: scale(2) rotate(180deg);
+  transform: scale(2) rotate(180deg);
+  box-shadow:  4px 4px 6px 0 rgba(255,255,255,.5),
+              -4px -4px 6px 0 rgba(116, 125, 136, .2), 
+    inset -4px -4px 6px 0 rgba(255,255,255,.5),
+    inset 4px 4px 6px 0 rgba(116, 125, 136, .3);
+}
 .description {
   display: inherit;
   justify-content: inherit;
@@ -58,7 +103,10 @@
   display: inline-block;
   transition: transform 200ms;
 }
-
+.textfield {
+  display: flex;
+  align-items: self-end;
+}
 .card h2 {
   font-weight: 600;
   margin-bottom: 0.7rem;
@@ -97,7 +145,7 @@
 
 .center::before,
 .center::after {
-  content: '';
+  content: "";
   left: 50%;
   position: absolute;
   filter: blur(45px);
@@ -186,7 +234,16 @@
     background-clip: padding-box;
     backdrop-filter: blur(24px);
   }
-
+  .TextField {
+    margin-top: 12px;
+  }
+  .textfieldcontainer {
+    padding: 50px;
+  }
+  .TextField {
+    display: flex;
+    align-items: self-end;
+  }
   .description div {
     align-items: flex-end;
     pointer-events: none;
@@ -201,14 +258,33 @@
     z-index: 1;
   }
 }
-
+.overlayedd{width: 100%;}
+.overlay {
+ 
+  padding: 3rem ;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: white;
+  border-radius: 2rem;
+  position: absolute;
+  top: 30%;
+  z-index: 8;
+}
+.overlayimage{width: 100%;}
 /* Tablet and Smaller Desktop */
 @media (min-width: 701px) and (max-width: 1120px) {
   .grid {
     grid-template-columns: repeat(2, 50%);
   }
+  .overlay{ flex-direction: column;}
 }
-
+@media (max-width: 700px)  {
+  .grid {
+    grid-template-columns: repeat(2, 50%);
+  }
+  .overlayimage{ display: none;}
+}
 @media (prefers-color-scheme: dark) {
   .vercelLogo {
     filter: invert(1);
@@ -217,6 +293,7 @@
   .logo {
     filter: invert(1) drop-shadow(0 0 0.3rem #ffffff70);
   }
+  .overlay{ flex-direction: column;}
 }
 
 @keyframes rotate {
@@ -226,4 +303,5 @@
   to {
     transform: rotate(0deg);
   }
+  
 }

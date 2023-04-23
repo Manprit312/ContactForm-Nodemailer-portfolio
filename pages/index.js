@@ -1,11 +1,93 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import { Inter } from 'next/font/google'
-import styles from '@/styles/Home.module.css'
-
-const inter = Inter({ subsets: ['latin'] })
-
+import Head from "next/head";
+import Image from "next/image";
+import YouTube, { YouTubeProps } from "react-youtube";
+import { Inter } from "next/font/google";
+import styles from "@/styles/Home.module.css";
+import { Input, Button, TextField, Paper, Modal } from "@material-ui/core";
+import { useRef, useState, useEffect } from "react";
+const inter = Inter({ subsets: ["latin"] });
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import axios from "axios";
+import ParticleContainer from "@/Components/particleContainer";
+import PersonIcon from "@mui/icons-material/Person";
+import PhoneIcon from "@mui/icons-material/Phone";
+import EmailIcon from "@mui/icons-material/Email";
+import MessageIcon from '@mui/icons-material/Message';
+import TextareaAutosize from '@mui/base/TextareaAutosize';
+import SubjectIcon from '@mui/icons-material/Subject';
 export default function Home() {
+  const playerr = useRef(null);
+  const [modal, setModal] = useState("");
+  const [values, setValues] = useState({
+    name: "",
+    phone: null,
+    email: "",
+    message:"",
+    subject:""
+  });
+
+  const handleChange = (e) => {
+    setValues({ ...values, [e.target.name]: e.target.value });
+  };
+  const handleSubmit = async () => {
+    const body = values;
+    await axios.post("http://localhost:2004", body).then((res) => {
+      console.log(res);
+    });
+  };
+  const theme = createTheme({
+    palette: {
+      primary: {
+        // light: will be calculated from palette.primary.main,
+        main: "#ff4400",
+        // dark: will be calculated from palette.primary.main,
+        // contrastText: will be calculated to contrast with palette.primary.main
+      },
+      secondary: {
+        light: "#0066ff",
+        main: "#000",
+        // dark: will be calculated from palette.secondary.main,
+        contrastText: "#ffcc00",
+      },
+      // Provide every color token (light, main, dark, and contrastText) when using
+      // custom colors for props in Material UI's components.
+      // Then you will be able to use it like this: `<Button color="custom">`
+      // (For TypeScript, you need to add module augmentation for the `custom` value)
+      custom: {
+        light: "#ffa726",
+        main: "#f57c00",
+        dark: "#ef6c00",
+        contrastText: "rgba(0, 0, 0, 0.87)",
+      },
+      // Used by `getContrastText()` to maximize the contrast between
+      // the background and the text.
+      contrastThreshold: 3,
+      // Used by the functions below to shift a color's luminance by approximately
+      // two indexes within its tonal palette.
+      // E.g., shift from Red 500 to Red 300 or Red 700.
+      tonalOffset: 0.2,
+    },
+  });
+  const getCurrentDuration = (e) => {
+    console.log(e);
+    if (playerr.current) {
+      // const currentTime = playerr.current.getDuration();
+      // returns seconds of video
+
+      const currentTime = playerr.current.getCurrentTime();
+      // returns seconds of video
+    }
+  };
+  const Seek = () => {
+    playerr.current.seekTo(4);
+  };
+  const Seek1 = () => {
+    playerr.current.seekTo(57);
+  };
+  const Seek2 = () => {
+    playerr.current.seekTo(567);
+    console.log(playerr.current.seekTo(567));
+  };
   return (
     <>
       <Head>
@@ -14,101 +96,124 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={styles.main}>
-        <div className={styles.description}>
-          <p>
-            Get started by editing&nbsp;
-            <code className={styles.code}>pages/index.js</code>
-          </p>
-          <div>
-            <a
-              href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              By{' '}
-              <Image
-                src="/vercel.svg"
-                alt="Vercel Logo"
-                className={styles.vercelLogo}
-                width={100}
-                height={24}
-                priority
+
+      <ThemeProvider theme={theme}>
+        <main className={styles.main}>
+          <ParticleContainer />
+          <>
+            <div className={styles.overlay}>
+              <div className={styles.overlayimage}>
+                {" "}
+                <img src="contact-me-1.png" />
+              </div>
+              {/* <YouTube
+                onReady={(event) => {
+                  // Save the YouTube player instance to the playerRefr `
+                  playerr.current = event.target;
+                
+                }}
+                onPlay={(e)=>getCurrentDuration(e)}
+                videoId={"-e0VDXNA1uI"} // defaults -> ''
+                ref={playerr} // defaults -> ''
+                className={"string"} // defaults -> ''
+                iframeClassName={"string"} // defaults -> ''
+              
+                title={"string"} // defaults -> ''
+
+                // defaults -> {}
               />
-            </a>
-          </div>
-        </div>
+              {console.log(modal)} 
+              <Button onClick={(e)=>Seek(e)}>seek at 4 seconds</Button>
+              <Button onClick={(e)=>Seek1(e)}>seek at 57 seconds</Button>
+              <Button onClick={(e)=>Seek2(e)}>seek at 567 seconds</Button> */}
+              <div className={styles.overlayedd}>
+                <div className={styles.textfield}>
+                  <div className={styles.icons}>
+                    <PersonIcon style={{ color: "rgb(187 158 199)" }} />
+                  </div>
+                  <TextField
+                    id="outlined-basic"
+                    label="Name"
+                   style={{width:"100%"}}
 
-        <div className={styles.center}>
-          <Image
-            className={styles.logo}
-            src="/next.svg"
-            alt="Next.js Logo"
-            width={180}
-            height={37}
-            priority
-          />
-        </div>
+                    variant="standard"
+                    onChange={(e) => handleChange(e)}
+                    name="name"
+                  />
+                </div>
+                <br />
 
-        <div className={styles.grid}>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Docs <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Find in-depth information about Next.js features and&nbsp;API.
-            </p>
-          </a>
+                <br />
+                <div className={styles.textfield}>
+                  <div className={styles.icons}>
+                    <PhoneIcon style={{ color: "rgb(187 158 199)" }} />
+                  </div>
+                  <TextField
+                    id="outlined-basic"
+                   style={{width:"100%"}}
 
-          <a
-            href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Learn <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Learn about Next.js in an interactive course with&nbsp;quizzes!
-            </p>
-          </a>
+                    label="Phone Number"
+                    variant="standard"
+                    type="tel"
+                    onChange={(e) => handleChange(e)}
+                    name="phone"
+                  />
+                </div>
+                <br />
+                <div className={styles.textfield}>
+                  <div className={styles.icons}>
+                    <SubjectIcon style={{ color: "rgb(187 158 199)" }} />
+                  </div>
+                  <TextField
+                   style={{width:"100%"}}
+                    label="Subject"
+                    variant="standard"
+                    type="text"
+                    onChange={(e) => handleChange(e)}
+                    name="subject"
+                  />
+                </div>
+                <br />
+               
+                <div className={styles.textfield}>
+                  <div className={styles.icons}>
+                    <EmailIcon style={{ color: "rgb(187 158 199)" }} />
+                  </div>
+                  <TextField
+                    id="outlined-basic"
+                    label="Email"
+                    variant="standard"
+                    onChange={(e) => handleChange(e)}
+                    name="email"
+                   style={{width:"100%"}}
 
-          <a
-            href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Templates <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Discover and deploy boilerplate example Next.js&nbsp;projects.
-            </p>
-          </a>
+                  />
+                </div>
+                <br />
+                <div className={styles.textfield}>
+                  <div className={styles.icons}>
+                    <MessageIcon style={{ color: "rgb(187 158 199)" }} />
+                  </div>
+                  <TextField
+                    id="outlined-basic"
+                    label="Message"
+                   style={{width:"100%"}}
 
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Deploy <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Instantly deploy your Next.js site to a shareable URL
-              with&nbsp;Vercel.
-            </p>
-          </a>
-        </div>
-      </main>
+                    variant="standard"
+                    type="text"
+                    onChange={(e) => handleChange(e)}
+                    name="message"
+                  />
+                </div>
+                <br />
+                <div className={styles.buttoncontact}>
+                  <Button onClick={() => handleSubmit()}>Contact Me</Button>
+                </div>
+              </div>
+            </div>
+          </>
+        </main>
+      </ThemeProvider>
     </>
-  )
+  );
 }
